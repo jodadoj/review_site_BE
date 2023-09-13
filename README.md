@@ -14,6 +14,7 @@
 ### [2. Creating the API](#creating-the-api)
 >#### [2.1 Serializers](#serializers)
 >#### [2.2 URLs](#urls)
+>#### [2.3 Starting the server](#starting-the-server)
 
 -----
 
@@ -122,7 +123,7 @@ urlpatterns = [
 ```
 
 ----
-### Testing the server
+
 ### Starting the server
 
 - use the command 
@@ -130,3 +131,8 @@ urlpatterns = [
 `python ./manage.py runserver`
 
 ![rest framework](images/001.png)
+
+----
+
+## Creating models
+
