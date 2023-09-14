@@ -16,6 +16,8 @@
 >#### [2.2 URLs](#urls)
 >#### [2.3 Starting the server](#starting-the-server)
 
+### [3. Creating Models](#creating-models)
+
 -----
 
 ## Startup
@@ -72,12 +74,23 @@
     class modelSerializer(serializers,HyperlinkedModelSerializers)
         class Meta
             model = Model
-            fields['field1', 'field2', 'etc etc']
+            fields = ['field1', 'field2', 'etc etc']
 ```
+
+or 
+
+```py
+    class modelSerializer(serializers,HyperlinkedModelSerializers)
+        class Meta
+            model = Model
+            fields = '__all__'
+```
+
+To pass all fields at once all at once.
 
 > **Note**
 >
-> Hyperlinked uses url instead of primary key
+> Hyperlinked uses url instead of primary key. We can also import default django models `User` and `Group` from `django.contrib.auth` to test the function before building our own unique models.
 
 ----
 
@@ -135,4 +148,72 @@ urlpatterns = [
 ----
 
 ## Creating models
+
+###
+
+- Import `models` from `django.db`
+- Import any defaults from `django.contrib.auth.models`
+- Create model class 
+
+```py 
+class Model(models.Model):
+    field = model.TypeField()
+```
+
+> **Note**
+>
+> Can specify nullable, unique, primary key, etc in parameters
+
+- If enumerables are neccessarily can define them using
+
+```py
+
+#these assigned value are what is sent and displayed to the GUI
+#each variable is just a constant of the value shown
+OPTION_1 = "1"
+OPTION_2 = "2"
+OPTION_3 = "3"
+OPTION_4 = "4"
+OPTION_5 = "5"
+
+#these values are what is sent to the db from the keys given 
+#each constant represents the data sent 
+OPTION_CHOICES = [
+    (OPTION_1, 'one'),
+    (OPTION_2, 'two'),
+    (OPTION_3, 'three'),
+    (OPTION_4, 'four'),
+    (OPTION_5, 'five'),
+]
+
+field = model.TypeField(choices=OPTION_CHOICES, default=OPTION_3)
+```
+
+> **Note**
+>
+> It's important to make note of the primary key, foreign key and cardinality of each model e.g. many pizzas use different toppings and many toppings can be part of different pizzas so a database schema would have to account for that back and forth.
+
+- Add your app to your backend `setting.py` file
+
+- run the migrations and the server to check everything is correct
+
+- `python ./manage.py makemigrations`
+
+- `python ./manage.py migrate`
+
+- `python ./manage.py runserver`
+
+- Import the models from your app and create serializers in the `serializers.py` file
+
+- Do the same for viewsets
+
+- This time change permissions to also be read only
+
+- `permission_classes = [permissions.IsAuthenticatedOrReadOnly]`
+
+- This allows users to also grab data
+
+- Finally we add this to the router
+----
+
 
